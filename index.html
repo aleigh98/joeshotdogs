@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Joe's HotDog Stand</title>
+
+    <style type="text/css">
+        html,body {background-color: #d13a3a; margin: 0px}
+        h1 {text-align: center; font-size: 80px; font-weight: bold;}
+        .hdimg img {height:200px; width:auto; margin-left: 60px; margin-top: 20px;}
+        .ffimg img {height:200px; width:auto; margin-right: 60px; margin-top: 20px; margin-left: 10px}
+        .hr hr {color: #dc3f3f;}
+        h2 {text-align:center; font-size: 50px; margin-bottom: 5px;}
+        .reorder p {text-align: center; margin-top: 0px; font-size: 12px;}
+        .order table {margin-left: 110px; margin-right: 110px; border: 5px; display: inline-block;}
+        .order table td.first {text-align: left;}
+        .order table td.second {text-align: right}
+        .order table td.title {font-weight: bold; text-align: left;}
+        .order table td {font-size: 20px;}
+        .checkout a {text-decoration: none; text-align: center; font-size: 40px; color: #000000; font-weight: bold;}
+        .checkout a:hover {text-decoration: underline; color: #170c50;}
+        iframe {margin-left: 20px; display: inline-block}
+        .cafeimg {display: inline-block;}
+
+        @media(max-width: 1207px) {
+            .cafeimg {display:none}
+            h1 {font-size: 60px}
+        }
+
+        @media(max-width: 883px) {
+            iframe {display: none;}
+            .order table {align-self: center; display: block; margin-left: 33%;}
+            
+        }
+
+        @media(max-width: 530px) {
+            .ffimg img {display: none;}
+        }
+
+        @media (max-width: 460px) {
+            .hdimg {display:none}
+        }
+
+
+    </style>
+</head>
+
+<body>
+    <script>
+        function count(number) {
+            if (Number.isInteger(number)) {
+                return 0
+            } else {
+                return number.toString().split(".")[1].length
+            }
+        }
+
+        function showMoney(number) {
+            str = number.toString()
+            modStr = str.slice(0, (str.indexOf(".")) + 3)
+            decPlaces = count(number)
+            
+            if (decPlaces < 2) {
+                if (decPlaces < 1) {
+                    return (modStr + ".00")
+                } else {
+                    return (modStr + "0")
+                }
+            }
+
+            if((str.at((str.indexOf(".")) + 3)) >= "5") {
+                // round number up
+                round = Number(modStr)
+                round +=.01
+                nstr = round.toString()
+                return nstr.slice(0, (nstr.indexOf(".")) + 3)
+                
+            }   
+            // return base number if no mods needed
+            return modStr
+        }
+
+        function calcDiscount(number) {
+            if (number >= 25.00) {
+                discount = number * .10
+                discount = showMoney(discount)
+                return discount
+            }
+            discount = 0.00
+            discount = showMoney(discount)
+            return discount
+        }
+
+        function calcTax(number) {
+            tax = number * .0625
+            tax = showMoney(tax)
+            return tax
+        }
+
+    </script>
+    <script>
+        const priceHD = 4.80
+        const priceFF = 3.95
+        const priceS = 1.99
+
+        numDogs = prompt("How many Hot Dogs?")
+        costDogs = numDogs * priceHD
+        costDogs = showMoney(costDogs)
+
+
+        numFries = prompt("How many Fries?")
+        costFries = numFries * priceFF
+        costFries = showMoney(costFries)
+
+        numSodas = prompt("How many Sodas?")
+        costSodas = numSodas * priceS
+        costSodas = showMoney(costSodas)
+
+        origSubTotal = (Number(costDogs) + Number(costSodas) + Number(costFries))
+        origSubTotal = showMoney(origSubTotal)
+    
+        discount = calcDiscount(origSubTotal)
+        discount = showMoney(discount)
+        newSubTotal = (Number(origSubTotal) - Number(discount))
+        newSubTotal = showMoney(newSubTotal)
+        tax = calcTax(newSubTotal)
+        tax = showMoney(tax)
+        finalSubTotal = (Number(newSubTotal) + Number(tax))
+        finalSubTotal = showMoney(finalSubTotal)
+
+    </script>
+    <div class="hdimg">
+        <img src="cartoonhotdog.png" align="left">
+    </div>
+    <div class="ffimg">
+        <img src="cartoonfrenchfry.png" align="right">
+    </div>
+
+    <h1>
+        Joe's HotDog Stand
+    </h1>
+    <div class="hr">
+        <hr>
+    </div>
+    <h2>
+        Your Order
+    </h2>
+    <div class="reorder">
+        <p>
+            *If you would like to change your order, please refresh the page
+        </p>
+    </div>
+
+    <div class="order">
+        <table cellpadding="3" cellspacing="0" border="0">
+            <tr>
+                <td class="title">Item</td>
+                <td class="title" style="text-align: right;">Price</td>
+            </tr>
+            <tr>
+                <td class="first">
+                    <script>
+                        document.write(numDogs + " Hot Dogs:")
+                    </script>
+                </td>
+                <td class="second">
+                    <script>
+                        document.write("$" + costDogs)
+                    </script>
+                </td>
+            </tr>
+            <tr>
+                <td class="first">
+                    <script>
+                        document.write(numFries + " French Fries:")
+                    </script>
+                </td>
+                <td class="second">
+                    <script>
+                        document.write("$" + costFries)
+                    </script>
+                </td>
+            </tr>
+            <tr>
+                <td class="first">
+                    <script>
+                        document.write(numSodas + " Sodas:")
+                    </script>
+                </td>
+                <td class="second">
+                    <script>
+                        document.write("$" + costSodas)
+                    </script>
+                </td>
+            </tr>
+            <tr>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+            <tr>
+                <td class="first">
+                    <script>
+                        document.write("Subtotal: ")
+                    </script>
+                </td>
+                <td class="second">
+                    <script>
+                        document.write("$" + origSubTotal)
+                    </script>
+                </td>
+            </tr>
+            <tr>
+                <td class="first">
+                    <script>
+                        document.write("Discount: ")
+                    </script>
+                </td>
+                <td class="second">
+                    <script>
+                        document.write("$" + discount)
+                    </script>
+                </td>
+            </tr>
+            <tr>
+                <td class="first">
+                    <script>
+                        document.write("Subtotal w/ Discount:")
+                    </script>
+                </td>
+                <td class="second">
+                    <script>
+                        document.write("$" + newSubTotal)
+                    </script>
+                </td>
+            </tr>
+            <tr>
+                <td class="first">
+                    <script>
+                        document.write("Tax Amount:")
+                    </script>
+                </td>
+                <td class="second">
+                    <script>
+                        document.write("$" + tax)
+                    </script>
+                </td>
+            </tr>
+            <tr>
+                <td class="first">
+                    <script>
+                        document.write("Total: ")
+                    </script>
+                </td>
+                <td class="second">
+                    <script>
+                        document.write("$" + finalSubTotal)
+                    </script>
+                </td>
+            </tr>
+        </table>
+        <iframe align=left src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2945.46715147196!2d-71.11153618891771!3d42.41779037106729!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89e376c81dee4beb%3A0xf588da158d892c6f!2sMedford%20Square!5e0!3m2!1sen!2sus!4v1727997875003!5m2!1sen!2sus" width="400" height="300" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <div class="cafeimg">
+            <img src="cafe.jpg" align="right">
+        </div>
+
+    </div>
+    
+    <div class="checkout">
+        <a href="confirmation.html">
+            <p>
+                Confirm Order
+            </p>
+        </a>
+    </div>
+
+
+
+</body>
+
+
+
+</html>
